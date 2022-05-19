@@ -116,6 +116,7 @@ class MenuPrincipal {
             println("1- Incluir mais itens")
             println("2- remover item")
             println("3- para pagar")
+            println("4- Editar item")
             val opcao = readln().toIntOrNull()
             when (opcao) {
                 1 -> {
@@ -124,12 +125,30 @@ class MenuPrincipal {
 
                 2 -> {
                     println("digite o codigo do produto a ser removido")
-                    val produtoRemovido = readln().toIntOrNull()
-                    carrinho.remove(produtoRemovido)
+                    val produtoRemovido = readln().toIntOrNull()?: 0
+                    if (produtoRemovido in carrinho) {
+                        carrinho.remove(produtoRemovido)
+                    }
+                    else (println("código nao encontrado!!! "))
                     this.menuCarrinho()
 
                 }
                 3 -> return
+                4 ->{
+                    println("digite o codigo do produto a ser alterado")
+                    val produtoAlterado = readln().toIntOrNull()?: 0
+                    if (produtoAlterado in carrinho) {
+                       println("digite a nova quantidade do produto")
+                        val novaQuantidade= readln().toIntOrNull()?: 0
+                       val produtoencontrado= carrinho.get(produtoAlterado)
+                          if (produtoencontrado !=null){
+                              produtoencontrado.quant=novaQuantidade
+                          }
+
+                    }
+                    else (println("código nao encontrado!!! "))
+                    this.menuCarrinho()
+                }
                 else -> println("opção invalida tente novamente")
             }
         }
