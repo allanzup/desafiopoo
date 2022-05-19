@@ -95,7 +95,7 @@ class MenuPrincipal {
         }
     }
 
-    fun menuCarrinho() {
+    fun mostrarTotal(): Double {
         var total = 0.0
         for ((k, i) in carrinho) {
             var tot = i.quant * i.produto.valor
@@ -103,9 +103,15 @@ class MenuPrincipal {
             println("$k - ${i.quant} ${i.produto.nome} ${i.produto.valor * i.quant}")
         }
         println("Valor total $total")
+        return total
+    }
+
+    fun menuCarrinho() {
+        mostrarTotal()
         println("Sincity Ifood")
         println("1- Incluir mais itens")
         println("2- remover item")
+        println("3- para pagar")
         val opcao = readln().toIntOrNull()
         when (opcao) {
             1 -> {
@@ -117,8 +123,10 @@ class MenuPrincipal {
                 val produtoRemovido = readln().toIntOrNull()
                 carrinho.remove(produtoRemovido)
                 this.menuCarrinho()
+                return
             }
-
+            3 -> return
+            else-> println("opção invalida tente novamente")
         }
 
     }
@@ -132,6 +140,11 @@ class MenuPrincipal {
         carrinho.put(produto.cod, itemPedido1)
 
         this.menuCarrinho()
+        return
+    }
+    fun fazerpagamento(){
+        println("redirecionando para pagamento")
+
     }
 }
 
