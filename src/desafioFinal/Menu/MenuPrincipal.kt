@@ -9,6 +9,7 @@ class MenuPrincipal {
 
     init {
         menuPrincipal()
+        menuCarrinho()
     }
 
     private fun menuPrincipal() {
@@ -25,11 +26,11 @@ class MenuPrincipal {
             when (opcao) {
                 1 -> {
                     this.menuLanche()
-
+                    return
                 }
                 2 -> {
                     this.menuBebidas()
-
+                    return
                 }
                 else -> println("opção invalida")
             }
@@ -53,6 +54,7 @@ class MenuPrincipal {
                     var quant = readln().toIntOrNull() ?: 0
                     val xsalada = Lanche(1, "xsalada", 12.0)
                     adicionarPedido(quant, xsalada)
+                    return
                 }
 
                 2 -> {
@@ -60,7 +62,7 @@ class MenuPrincipal {
                     var quant = readln().toIntOrNull() ?: 0
                     val hamburguer = Lanche(2, "hamburguer", 10.0)
                     adicionarPedido(quant, hamburguer)
-
+                    return
                 }
                 else -> println("opção invalida")
 
@@ -81,7 +83,7 @@ class MenuPrincipal {
                     var quant = readln().toIntOrNull() ?: 0
                     val suco = Lanche(3, "suco", 6.0)
                     adicionarPedido(quant, suco)
-
+                    return
                 }
 
                 2 -> {
@@ -89,6 +91,7 @@ class MenuPrincipal {
                     var quant = readln().toIntOrNull() ?: 0
                     val refrigerante = Lanche(4, "refrigerante", 8.0)
                     adicionarPedido(quant, refrigerante)
+                    return
                 }
                 else -> println("opção invalida")
             }
@@ -107,26 +110,28 @@ class MenuPrincipal {
     }
 
     fun menuCarrinho() {
-        mostrarTotal()
-        println("Sincity Ifood")
-        println("1- Incluir mais itens")
-        println("2- remover item")
-        println("3- para pagar")
-        val opcao = readln().toIntOrNull()
-        when (opcao) {
-            1 -> {
-                this.menuPrincipal()
-            }
+        while (true) {
+            mostrarTotal()
+            println("Sincity Ifood")
+            println("1- Incluir mais itens")
+            println("2- remover item")
+            println("3- para pagar")
+            val opcao = readln().toIntOrNull()
+            when (opcao) {
+                1 -> {
+                    this.menuPrincipal()
+                }
 
-            2 -> {
-                println("digite o codigo do produto a ser removido")
-                val produtoRemovido = readln().toIntOrNull()
-                carrinho.remove(produtoRemovido)
-                this.menuCarrinho()
-                return
+                2 -> {
+                    println("digite o codigo do produto a ser removido")
+                    val produtoRemovido = readln().toIntOrNull()
+                    carrinho.remove(produtoRemovido)
+                    this.menuCarrinho()
+
+                }
+                3 -> return
+                else -> println("opção invalida tente novamente")
             }
-            3 -> return
-            else-> println("opção invalida tente novamente")
         }
 
     }
@@ -139,10 +144,11 @@ class MenuPrincipal {
         }
         carrinho.put(produto.cod, itemPedido1)
 
-        this.menuCarrinho()
+//        this.menuCarrinho()
         return
     }
-    fun fazerpagamento(){
+
+    fun fazerpagamento() {
         println("redirecionando para pagamento")
 
     }

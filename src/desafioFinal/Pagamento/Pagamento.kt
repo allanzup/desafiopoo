@@ -5,6 +5,9 @@ import src.desafioFinal.Menu.MenuPrincipal
 import kotlin.system.exitProcess
 
 class Pagamento(val carrinho: MenuPrincipal) {
+    init {
+        escolherPagamento()
+    }
     fun escolherPagamento() {
         while (true) {
             println("Escolha a forma de pagamento")
@@ -16,7 +19,7 @@ class Pagamento(val carrinho: MenuPrincipal) {
             when (opcao) {
                 1 -> {
                     pagarEmDinheiro()
-                    return
+
                 }
                 2, 3 ->{
                     pagarComCartao()
