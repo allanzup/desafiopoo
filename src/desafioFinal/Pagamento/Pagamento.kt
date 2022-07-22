@@ -8,6 +8,7 @@ class Pagamento(val carrinho: MenuPrincipal) {
     init {
         escolherPagamento()
     }
+
     fun escolherPagamento() {
         while (true) {
             println("Escolha a forma de pagamento")
@@ -15,13 +16,14 @@ class Pagamento(val carrinho: MenuPrincipal) {
             println("digite 2- para pagamento com cartão")
             println("digite 3- para pagamento com ticket refeição")
             println("digite 0- para Sair")
-            val opcao = readln().toIntOrNull()
+            val opcao = lerNumero()
+            if (opcao==null){continue}
             when (opcao) {
                 1 -> {
                     pagarEmDinheiro()
 
                 }
-                2, 3 ->{
+                2, 3 -> {
                     pagarComCartao()
                     return
                 }
@@ -45,7 +47,8 @@ class Pagamento(val carrinho: MenuPrincipal) {
     private fun pagarEmDinheiro() {
         val valorFinal = carrinho.mostrarTotal()
         println("digite o valor do pagamento")
-        val dinheiro = readln().toDoubleOrNull() ?: -1.0
+        val dinheiro = lerNumero()
+        if (dinheiro==null){return}
         if (dinheiro < 0) {
             println("valor invalido, tente novamente!!!")
             return
@@ -61,5 +64,15 @@ class Pagamento(val carrinho: MenuPrincipal) {
         println("Pagamento efetuado com sucesso! Bom apetite!!!")
         exitProcess(0)
     }
+    fun lerNumero(): Int? {
+        var numero: Int?
+        try {
+            numero = readln().toInt()
+        } catch (e: NumberFormatException) {
+            println("Formato inválido, para escolher o item, você deve informar o número dele")
+            numero = null
+        }
 
-}
+        return numero
+
+}}

@@ -3,6 +3,9 @@ package src.desafioFinal.Menu
 import src.desafioFinal.Itens.ItemPedido
 import src.desafioFinal.Itens.Lanche
 import src.desafioFinal.Itens.Produto
+import kotlin.math.absoluteValue
+import kotlin.reflect.typeOf
+import kotlin.test.assertIs
 
 class MenuPrincipal {
     var carrinho = HashMap<Int, ItemPedido>()
@@ -22,7 +25,11 @@ class MenuPrincipal {
             println("1- Lanches")
             println("")
             println("2- Bebidas")
-            val opcao = readln().toIntOrNull()
+            val opcao = lerNumero()
+            if (opcao==null){
+                continue
+            }
+
             when (opcao) {
                 1 -> {
                     this.menuLanche()
@@ -32,7 +39,8 @@ class MenuPrincipal {
                     this.menuBebidas()
                     return
                 }
-                else -> println("opção invalida")
+
+                else -> println("Opção invalida. Tente novamente!!!")
             }
         }
 
@@ -46,12 +54,14 @@ class MenuPrincipal {
             println("---------------- MENU LANCES -----------------       ")
             println("1- Xsalada")
             println("2- Hamburguer")
-            val opcao = readln().toIntOrNull()
+            val opcao = lerNumero()
+            if (opcao==null){continue}
             when (opcao) {
 
                 1 -> {
                     println("digite a quantidade")
-                    var quant = readln().toIntOrNull() ?: 0
+                    var quant = lerNumero()
+                    if (quant==null){continue}
                     val xsalada = Lanche(1, "xsalada", 12.0)
                     adicionarPedido(quant, xsalada)
                     return
@@ -59,7 +69,8 @@ class MenuPrincipal {
 
                 2 -> {
                     println("digite a quantidade")
-                    var quant = readln().toIntOrNull() ?: 0
+                    var quant = lerNumero()
+                    if (quant==null){continue}
                     val hamburguer = Lanche(2, "hamburguer", 10.0)
                     adicionarPedido(quant, hamburguer)
                     return
@@ -76,11 +87,13 @@ class MenuPrincipal {
             println("Sincity Ifood")
             println("1- suco")
             println("2- refrigerante")
-            val opcao = readln().toIntOrNull()
+            val opcao = lerNumero()
+            if (opcao==null){continue}
             when (opcao) {
                 1 -> {
                     println("digite a quantidade")
-                    var quant = readln().toIntOrNull() ?: 0
+                    var quant = lerNumero()
+                    if (quant==null){continue}
                     val suco = Lanche(3, "suco", 6.0)
                     adicionarPedido(quant, suco)
                     return
@@ -88,7 +101,8 @@ class MenuPrincipal {
 
                 2 -> {
                     println("digite a quantidade")
-                    var quant = readln().toIntOrNull() ?: 0
+                    var quant = lerNumero()
+                    if (quant==null){continue}
                     val refrigerante = Lanche(4, "refrigerante", 8.0)
                     adicionarPedido(quant, refrigerante)
                     return
@@ -117,7 +131,8 @@ class MenuPrincipal {
             println("2- remover item")
             println("3- para pagar")
             println("4- Editar item")
-            val opcao = readln().toIntOrNull()
+            val opcao = lerNumero()
+            if (opcao==null){continue}
             when (opcao) {
                 1 -> {
                     this.menuPrincipal()
@@ -125,28 +140,29 @@ class MenuPrincipal {
 
                 2 -> {
                     println("digite o codigo do produto a ser removido")
-                    val produtoRemovido = readln().toIntOrNull()?: 0
+                    val produtoRemovido = lerNumero()
+                    if (produtoRemovido==null){continue}
                     if (produtoRemovido in carrinho) {
                         carrinho.remove(produtoRemovido)
-                    }
-                    else (println("código nao encontrado!!! "))
+                    } else (println("código nao encontrado!!! "))
                     this.menuCarrinho()
 
                 }
                 3 -> return
-                4 ->{
+                4 -> {
                     println("digite o codigo do produto a ser alterado")
-                    val produtoAlterado = readln().toIntOrNull()?: 0
+                    val produtoAlterado = lerNumero()
+                    if (produtoAlterado==null){continue}
                     if (produtoAlterado in carrinho) {
-                       println("digite a nova quantidade do produto")
-                        val novaQuantidade= readln().toIntOrNull()?: 0
-                       val produtoencontrado= carrinho.get(produtoAlterado)
-                          if (produtoencontrado !=null){
-                              produtoencontrado.quant=novaQuantidade
-                          }
+                        println("digite a nova quantidade do produto")
+                        val novaQuantidade = lerNumero()
+                        if (novaQuantidade==null){continue}
+                        val produtoencontrado = carrinho.get(produtoAlterado)
+                        if (produtoencontrado != null) {
+                            produtoencontrado.quant = novaQuantidade
+                        }
 
-                    }
-                    else (println("código nao encontrado!!! "))
+                    } else (println("código nao encontrado!!! "))
                     this.menuCarrinho()
                 }
                 else -> println("opção invalida tente novamente")
@@ -169,6 +185,19 @@ class MenuPrincipal {
 
     fun fazerpagamento() {
         println("redirecionando para pagamento")
+
+    }
+
+    fun lerNumero(): Int? {
+        var numero: Int?
+        try {
+            numero = readln().toInt()
+        } catch (e: NumberFormatException) {
+            println("Formato inválido, para escolher o item, você deve informar o número dele")
+            numero = null
+        }
+
+        return numero
 
     }
 }
