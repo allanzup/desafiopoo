@@ -3,36 +3,46 @@ package src.desafioFinal.Menu
 import src.desafioFinal.Itens.ItemPedido
 import src.desafioFinal.Itens.Lanche
 import src.desafioFinal.Itens.Produto
+import src.desafioFinal.Pagamento.Pagamento
+import kotlin.system.exitProcess
 
 class MenuPrincipal {
     var carrinho = HashMap<Int, ItemPedido>()
 
     init {
         menuPrincipal()
-        menuCarrinho()
     }
 
     private fun menuPrincipal() {
         while (true) {
-
+            mostrarTotal()
             println("---------------- Sincity Ifood-----------------       ")
-            println("")
+            println("> Menu principal")
             println("------- Escolha as opções abaixo do menu -------------")
-            println("")
-            println("1- Lanches")
-            println("")
-            println("2- Bebidas")
-            val opcao = readln().toIntOrNull()
+            println("1- Adicionar Lanche")
+            println("2- Adicionar Bebida")
+            println("3- Finalizar Pedido")
+            println("4- Sair do sistema\n")
+            val opcao = lerNumero()
+            if (opcao == null) {
+                continue
+            }
+
             when (opcao) {
                 1 -> {
                     this.menuLanche()
-                    return
                 }
                 2 -> {
                     this.menuBebidas()
-                    return
                 }
-                else -> println("opção invalida")
+                3 -> {
+                    this.menuCarrinho()
+                }
+                4 -> {
+                    exitProcess(0)
+                }
+
+                else -> println("Opção invalida. Tente novamente!!!")
             }
         }
 
@@ -41,28 +51,43 @@ class MenuPrincipal {
 
     private fun menuLanche() {
         while (true) {
+            mostrarTotal()
             println("---------------- SINCITY IFOOD-----------------       ")
-            println("")
+            println("> Menu principal > Lanche")
             println("---------------- MENU LANCES -----------------       ")
             println("1- Xsalada")
             println("2- Hamburguer")
-            val opcao = readln().toIntOrNull()
+            println("3- Voltar\n")
+            val opcao = lerNumero()
+            if (opcao == null) {
+                continue
+            }
             when (opcao) {
 
                 1 -> {
                     println("digite a quantidade")
-                    var quant = readln().toIntOrNull() ?: 0
+                    var quant = lerNumero()
+                    if (quant == null) {
+                        continue
+                    }
                     val xsalada = Lanche(1, "xsalada", 12.0)
                     adicionarPedido(quant, xsalada)
-                    return
+
                 }
 
                 2 -> {
                     println("digite a quantidade")
-                    var quant = readln().toIntOrNull() ?: 0
+                    var quant = lerNumero()
+                    if (quant == null) {
+                        continue
+                    }
                     val hamburguer = Lanche(2, "hamburguer", 10.0)
                     adicionarPedido(quant, hamburguer)
-                    return
+
+                }
+
+                3 -> {
+                    break
                 }
                 else -> println("opção invalida")
 
@@ -73,25 +98,41 @@ class MenuPrincipal {
 
     private fun menuBebidas() {
         while (true) {
-            println("Sincity Ifood")
+            mostrarTotal()
+            println("---------------- SINCITY IFOOD-----------------       ")
+            println("> Menu principal > Bebidas")
+            println("---------------- MENU LANCES -----------------       ")
             println("1- suco")
             println("2- refrigerante")
-            val opcao = readln().toIntOrNull()
+            println("3- voltar\n")
+            val opcao = lerNumero()
+            if (opcao == null) {
+                continue
+            }
             when (opcao) {
                 1 -> {
                     println("digite a quantidade")
-                    var quant = readln().toIntOrNull() ?: 0
+                    var quant = lerNumero()
+                    if (quant == null) {
+                        continue
+                    }
                     val suco = Lanche(3, "suco", 6.0)
                     adicionarPedido(quant, suco)
-                    return
+
                 }
 
                 2 -> {
                     println("digite a quantidade")
-                    var quant = readln().toIntOrNull() ?: 0
+                    var quant = lerNumero()
+                    if (quant == null) {
+                        continue
+                    }
                     val refrigerante = Lanche(4, "refrigerante", 8.0)
                     adicionarPedido(quant, refrigerante)
-                    return
+
+                }
+                3 -> {
+                    break
                 }
                 else -> println("opção invalida")
             }
@@ -99,6 +140,8 @@ class MenuPrincipal {
     }
 
     fun mostrarTotal(): Double {
+
+        println("---------------- CARRINHO -----------------       ")
         var total = 0.0
         for ((k, i) in carrinho) {
             var tot = i.quant * i.produto.valor
@@ -109,45 +152,76 @@ class MenuPrincipal {
         return total
     }
 
+    fun getvalortotal(): Double {
+
+
+        var total = 0.0
+        for ((k, i) in carrinho) {
+            var tot = i.quant * i.produto.valor
+            total = total + tot
+
+        }
+
+        return total
+    }
+
     fun menuCarrinho() {
         while (true) {
             mostrarTotal()
-            println("Sincity Ifood")
+            println("---------------- SINCITY IFOOD-----------------       ")
+            println("> Menu principal > Carrinho")
+            println("---------------- MENU LANCES -----------------       ")
             println("1- Incluir mais itens")
             println("2- remover item")
-            println("3- para pagar")
-            println("4- Editar item")
-            val opcao = readln().toIntOrNull()
+            println("3- Editar item")
+            println("4- Pagar")
+            println("5- Voltar")
+            val opcao = lerNumero()
+            if (opcao == null) {
+                continue
+            }
             when (opcao) {
                 1 -> {
-                    this.menuPrincipal()
+                    break
                 }
 
                 2 -> {
                     println("digite o codigo do produto a ser removido")
-                    val produtoRemovido = readln().toIntOrNull()?: 0
+                    val produtoRemovido = lerNumero()
+                    if (produtoRemovido == null) {
+                        continue
+                    }
                     if (produtoRemovido in carrinho) {
                         carrinho.remove(produtoRemovido)
-                    }
-                    else (println("código nao encontrado!!! "))
-                    this.menuCarrinho()
-
+                    } else (println("código nao encontrado!!! "))
                 }
-                3 -> return
-                4 ->{
+                3 -> {
                     println("digite o codigo do produto a ser alterado")
-                    val produtoAlterado = readln().toIntOrNull()?: 0
-                    if (produtoAlterado in carrinho) {
-                       println("digite a nova quantidade do produto")
-                        val novaQuantidade= readln().toIntOrNull()?: 0
-                       val produtoencontrado= carrinho.get(produtoAlterado)
-                          if (produtoencontrado !=null){
-                              produtoencontrado.quant=novaQuantidade
-                          }
-
+                    val produtoAlterado = lerNumero()
+                    if (produtoAlterado == null) {
+                        continue
                     }
-                    else (println("código nao encontrado!!! "))
-                    this.menuCarrinho()
+                    if (produtoAlterado in carrinho) {
+                        println("digite a nova quantidade do produto")
+                        val novaQuantidade = lerNumero()
+                        if (novaQuantidade == null) {
+                            continue
+                        }
+                        val produtoencontrado = carrinho.get(produtoAlterado)
+                        if (produtoencontrado != null) {
+                            produtoencontrado.quant = novaQuantidade
+                        }
+
+                    } else (println("código nao encontrado!!! "))
+                }
+                4 -> {
+                    println("redirecionando para pagamento")
+                    if (Pagamento(this).escolherPagamento()) {
+                        break
+                    }
+                }
+                5 -> {
+                    break
                 }
                 else -> println("opção invalida tente novamente")
             }
@@ -167,8 +241,16 @@ class MenuPrincipal {
         return
     }
 
-    fun fazerpagamento() {
-        println("redirecionando para pagamento")
+    fun lerNumero(): Int? {
+        var numero: Int?
+        try {
+            numero = readln().toInt()
+        } catch (e: NumberFormatException) {
+            println("Formato inválido, para escolher o item, você deve informar o número dele")
+            numero = null
+        }
+
+        return numero
 
     }
 }

@@ -2,33 +2,34 @@ package src.desafioFinal.Pagamento
 
 
 import src.desafioFinal.Menu.MenuPrincipal
-import kotlin.system.exitProcess
 
 class Pagamento(val carrinho: MenuPrincipal) {
-    init {
-        escolherPagamento()
-    }
-    fun escolherPagamento() {
+
+    fun escolherPagamento():Boolean {
         while (true) {
+            carrinho.mostrarTotal()
+            println("---------------- Sincity Ifood-----------------       ")
+            println("> Menu principal > Carrinho > Pagamento")
+            println("------- Escolha as opções abaixo do menu -------------")
             println("Escolha a forma de pagamento")
-            println("digite 1- para pagamento em dinheiro")
-            println("digite 2- para pagamento com cartão")
-            println("digite 3- para pagamento com ticket refeição")
-            println("digite 0- para Sair")
-            val opcao = readln().toIntOrNull()
+            println("1- para pagamento em dinheiro")
+            println("2- para pagamento com cartão")
+            println("3- para pagamento com ticket refeição")
+            println("4- Voltar")
+            val opcao = lerNumero()
+            if (opcao==null){continue}
             when (opcao) {
                 1 -> {
-                    pagarEmDinheiro()
-
+                    val pago = pagarEmDinheiro()
+                    if (pago) return true
                 }
-                2, 3 ->{
+                2, 3 -> {
                     pagarComCartao()
-                    return
+                    return true
                 }
 
-                0 -> {
-                    println("pedido cancelado")
-                    exitProcess(0)
+                4 -> {
+                    return false
                 }
                 else -> println("opção Invalida tente novamente")
             }
@@ -42,24 +43,35 @@ class Pagamento(val carrinho: MenuPrincipal) {
         println("Pagamento efetuado com sucesso! Bom apetite!!!")
     }
 
-    private fun pagarEmDinheiro() {
-        val valorFinal = carrinho.mostrarTotal()
+    private fun pagarEmDinheiro():Boolean {
+        val valorFinal = carrinho.getvalortotal()
         println("digite o valor do pagamento")
-        val dinheiro = readln().toDoubleOrNull() ?: -1.0
+        val dinheiro = lerNumero()
+        if (dinheiro==null){return false}
         if (dinheiro < 0) {
             println("valor invalido, tente novamente!!!")
-            return
+            return false
         }
         if (dinheiro < valorFinal) {
             println("valor insuficiente, tente novamente")
-            return
+            return false
         }
         if (dinheiro > valorFinal) {
             val troco = dinheiro - valorFinal
             println("seu troco é de R$ $troco")
         }
         println("Pagamento efetuado com sucesso! Bom apetite!!!")
-        exitProcess(0)
+        return true
     }
+    fun lerNumero(): Int? {
+        var numero: Int?
+        try {
+            numero = readln().toInt()
+        } catch (e: NumberFormatException) {
+            println("Formato inválido, para escolher o item, você deve informar o número dele")
+            numero = null
+        }
 
-}
+        return numero
+
+}}

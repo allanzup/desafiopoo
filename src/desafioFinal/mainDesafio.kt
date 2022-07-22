@@ -7,8 +7,7 @@ import src.desafioFinal.Pagamento.Pagamento
 
 fun main() {
 
-    val menu = MenuPrincipal()
-    Pagamento(menu)
+    MenuPrincipal()
 }
 
 
